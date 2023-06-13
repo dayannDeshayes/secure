@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {Component, OnInit} from '@angular/core';
 import {
   UntypedFormGroup,
   UntypedFormBuilder,
@@ -7,25 +7,32 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { AlertController, IonicModule } from '@ionic/angular';
-import { TokenService } from 'src/app/services/token.service';
+import {AlertController, IonicModule} from '@ionic/angular';
+import {TokenService} from 'src/app/services/token/token.service';
+import {StorageService} from "../../../services/storage/storage.service";
+import {Observable} from "rxjs";
+import {UserService} from "../../../services/user/user.service";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule ],
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule],
 })
 export class LoginComponent implements OnInit {
   loginForm?: UntypedFormGroup;
   submitted = false;
   hideFormLogin: boolean;
 
+  salutation$ !: Observable<string>;
+
   constructor(
     public alertCtrl: AlertController,
     private formBuilder: UntypedFormBuilder,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private storageService: StorageService,
+    private userService: UserService
   ) {
     //Par defaut on masque le formulaire de login car on va tenter de recuperer les
     //identifiants de connexion avant dans le coffre fort du tel
@@ -60,12 +67,15 @@ export class LoginComponent implements OnInit {
     this.submitted = true; //soumission en cours
     //Appel du service pour la connexion
     this.tokenService.login(email, pass).subscribe({
-      next: (rToken) => console.log('token recupere : %s', rToken),
+      next: (rToken) => this.storageService.set(rToken),
       error: (e) => console.error(e),
       complete: () => {
         console.info('complete');
         this.submitted = false;
+        this.salutation$ = this.userService.getHelloUser();
       },
     });
   }
 }
+
+

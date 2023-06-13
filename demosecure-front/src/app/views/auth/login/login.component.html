@@ -17,17 +17,21 @@
                           <ion-input label="Password" type="password" minlength="5" maxlength="50" formControlName="password"></ion-input>
                       </ion-item>
 
-                      <div class="ion-text-center">
-                          <ion-button type="submit" color="primary" [disabled]="submitted">
+                    <div class="ion-text-center">
+                      <ion-button [disabled]="!this.loginForm!.valid" color="primary" type="submit">
                               <span *ngIf="submitted">
                                       <ion-spinner color="primary"></ion-spinner>
                                   </span> Connexion
-                          </ion-button>
-                      </div>
+                      </ion-button>
+                    </div>
                   </form>
-
               </ion-list>
           </div>
+        <div>
+          <ng-container *ngIf="salutation$ | async as hello">
+            <p>{{hello}}</p>
+          </ng-container>
+        </div>
       </ion-col>
   </ion-row>
 </ion-grid>

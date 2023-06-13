@@ -19,14 +19,14 @@ export class TokenService {
    * @returns
    */
   login(email: string, password: string): Observable<string> {
-    return this.http.post<{accessToken: string}>(`${this.BASE_URL}/signin`, { usernameOrEmail: email, password})
+    return this.http.post<{ accessToken: string }>(`${this.BASE_URL}/user/signin`, {usernameOrEmail: email, password})
       .pipe(map(tokenReponse => {
           return tokenReponse.accessToken;
-      }),
-      catchError((err, caught) => {
-        console.error("login-Erreur :", err, caught);
-        return EMPTY;
-      }));
+        }),
+        catchError((err, caught) => {
+          console.error("login-Erreur :", err, caught);
+          return EMPTY;
+        }));
   }
 
 }
