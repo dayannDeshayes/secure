@@ -30,4 +30,11 @@ public interface IDemoUserSecurityService {
      * @return le BearerToken ou erreur d'authentification
      */
     BearerToken authenticate(LoginDto rLoginDto);
+
+    /**
+     * modifie le user
+     *
+     * @param username : donnees en entree
+     */
+    void modify(String username, String role);
 }

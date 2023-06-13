@@ -20,9 +20,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
@@ -111,4 +110,14 @@ public class DemoUserSecurityService implements IDemoUserSecurityService {
         return new BearerToken(jwtUtilities.generateToken(user.getUsername(), rolesNames), TOKEN_TYPE);
     }
 
+    @Override
+    public void modify(String email, String role) {
+        UserEntity user = IUserRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        RoleEntity roles = IRoleRepository.findByName(RoleName.valueOf(role)).get();
+        Set<RoleEntity> mutableRoles = new HashSet<>();
+        mutableRoles.add(roles);
+        user.setRoles(mutableRoles);
+
+        IUserRepository.save(user);
+    }
 }
