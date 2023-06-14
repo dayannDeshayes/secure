@@ -30,15 +30,15 @@ export class Tab1Page implements OnInit {
   }
 
   onSubmit() {
-    // stop here if form is invalid
+
     if (!this.form || this.form.invalid) {
       return;
     }
-    //recupere les champs
+
     let email = this.form.get('email')?.value;
     let role = this.form.get('role')?.value;
     console.log(email);
-    //Effecture la connexion avec les identifiants
+
     this.serviceUser.changeRole(email, role).subscribe({
         next: (response) => {
           this.ajoutRole = true;

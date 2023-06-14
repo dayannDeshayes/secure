@@ -66,8 +66,8 @@ export class LoginComponent implements OnInit {
    * @param pass : le mot de passe
    */
   private proceedLogin(email: string, pass: string) {
-    this.submitted = true; //soumission en cours
-    //Appel du service pour la connexion
+    this.submitted = true;
+
     this.tokenService.login(email, pass).subscribe({
       next: (rToken) => this.storageService.set(rToken),
       error: (e) => console.error(e),
