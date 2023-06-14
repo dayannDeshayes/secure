@@ -8,7 +8,7 @@ import {environment} from "../../../environments/environment";
 })
 export class StorageService {
   private _storage: Storage | null = null;
-  private token: string = `${environment.tokenKey}`;
+  private token_session: string = ``;
 
   constructor(private storage: Storage) {
     this.init();
@@ -23,15 +23,20 @@ export class StorageService {
   }
 
   public set(value: any) {
-    this._storage?.set(this.token, value);
+    this.token_session = value;
+    this._storage?.set(`${environment.tokenKey}`, value);
   }
 
-  public get(key: string): Promise<any> | undefined {
-    return this._storage?.get(key);
+  public get(): Promise<any> | undefined {
+    return this._storage?.get(`${environment.tokenKey}`);
   }
 
   public getToken(): string | undefined {
-    return this.token;
+    return this.token_session;
+  }
+
+  public removeItem(): void {
+    this._storage?.remove(`${environment.tokenKey}`);
   }
 
 }

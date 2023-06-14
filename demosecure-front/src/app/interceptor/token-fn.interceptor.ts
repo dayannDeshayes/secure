@@ -11,7 +11,9 @@ export const tokenFnInterceptor: HttpInterceptorFn = (req, next) => {
   let newHeaders = req.headers;
   if (token) {
     //si on a un token, on l'injecte dans le header Authorization
+    console.log("interceptor", token);
     newHeaders = newHeaders.append('Authorization', `Bearer ${token}`);
+    console.log("interceptor headers", newHeaders);
   }
   // Enfin, nous devons cloner notre requete avec nos nouveaux en-tetes.
   // Ceci est necessaire car les HttpRequests sont immuables.

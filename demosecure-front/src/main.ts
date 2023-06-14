@@ -9,6 +9,7 @@ import {AppComponent} from './app/app.component';
 import {environment} from './environments/environment';
 import {IonicStorageModule} from "@ionic/storage-angular";
 import {tokenFnInterceptor} from "./app/interceptor/token-fn.interceptor";
+import {AuthGuard} from "./guard/auth.guard";
 
 if (environment.production) {
   enableProdMode();
@@ -20,6 +21,7 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(IonicModule.forRoot({}), IonicStorageModule.forRoot()),
     provideRouter(routes),
     provideHttpClient(withInterceptors([tokenFnInterceptor])),
-    provideHttpClient()
+    provideHttpClient(),
+    AuthGuard
   ],
 });

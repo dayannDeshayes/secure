@@ -12,6 +12,7 @@ import {TokenService} from 'src/app/services/token/token.service';
 import {StorageService} from "../../../services/storage/storage.service";
 import {Observable} from "rxjs";
 import {UserService} from "../../../services/user/user.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -32,7 +33,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: UntypedFormBuilder,
     private tokenService: TokenService,
     private storageService: StorageService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {
     //Par defaut on masque le formulaire de login car on va tenter de recuperer les
     //identifiants de connexion avant dans le coffre fort du tel
@@ -73,6 +75,7 @@ export class LoginComponent implements OnInit {
         console.info('complete');
         this.submitted = false;
         this.salutation$ = this.userService.getHelloUser();
+        this.router.navigate(['/']);
       },
     });
   }
